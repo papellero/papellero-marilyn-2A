@@ -1,260 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>LYN'S SALON APPOINTMENT SYSTEM</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #C5E1A5;
+            background: url('{{ url_for("static", filename="salon_bg.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #fff;
             scroll-behavior: smooth;
         }
 
+        /* Transparent navbar with white text */
         .navbar {
-            background-color: #2E7D32;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: none;
         }
 
         .navbar-brand,
-        .nav-link,
-        .navbar-toggler-icon {
-            color: white !important;
+        .nav-link {
+            color: #fff !important;
+            font-weight: 500;
         }
 
-        header,
-        .hero-section {
-            background: url('https://images.unsplash.com/photo-1615834760697-6f55e75132bc?auto=format&fit=crop&w=1950&q=80') no-repeat center center;
+        .nav-link:hover {
+            color: #ffd700 !important;
+        }
+
+        .btn-light,
+        .btn-outline-light {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-light:hover,
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.4);
+            color: #000;
+        }
+
+        /* Hero (Home) */
+        header {
+            background: url('{{ url_for("static", filename="salon_bg.jpg") }}') no-repeat center center;
             background-size: cover;
             height: 90vh;
-            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(46, 125, 50, 0.7);
-            z-index: 0;
-        }
-
-        .hero-section .container,
-        header .container {
-            position: relative;
-            z-index: 1;
+            color: white;
         }
 
         header h1 {
             font-size: 3rem;
-            background-color: rgba(46, 125, 50, 0.7);
-            padding: 20px;
-            border-radius: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+            margin-bottom: 15px;
         }
 
+        header p {
+            font-size: 1.25rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Generic section setup */
         section {
-            padding: 60px 20px;
-            display: none; /* Hide all sections initially */
+            padding: 80px 20px;
+            display: none;
+            color: #fff;
+            text-align: center;
+        }
+
+        section h2 {
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+            margin-bottom: 30px;
+        }
+
+        /* ✨ ABOUT US Section Text Styling */
+        #about p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: justify;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 💇‍♀️ About Us — soft golden salon glow */
+        #about {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="about_bg.jpg") }}') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* 💅 Promo — elegant marble texture or discount theme */
+        #promo {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="promo_bg.jpg") }}') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* 🎀 Promo List Readability */
+        #promo .list-group-item {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            margin: 6px auto;
+            max-width: 700px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ✂️ Services — clean spa aesthetic */
+        #services {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="services_bg.jpg") }}') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* 📞 Contact — calm pastel or reception theme */
+        #contact {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="contact_bg.jpg") }}') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            border-radius: 10px;
         }
 
         .card img {
             height: 250px;
             object-fit: cover;
-        }
-
-        .card-body {
-            background-color: #ffffff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
         .list-group-item {
             background-color: transparent;
-            color: white;
-            border-color: white;
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
+        /* Footer */
         footer {
-            background-color: #2E7D32;
-            color: white;
+            background: rgba(0, 0, 0, 0.5);
             text-align: center;
             padding: 20px;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">LYN'S SALON</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('home')">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('about')">About Us</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('promo')">Promo</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('services')">Available Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('contact')">Contact</a></li>
-            </ul>
-            <a href="{{ url_for('login') }}" class="btn btn-light me-2">Login</a>
-            <a href="{{ url_for('register') }}" class="btn btn-outline-light">Register</a>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LYN'S SALON</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('home')">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('about')">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('promo')">Promo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('services')">Available Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('appointment')">Book Appointment</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('contact')">Contact</a></li>
+                </ul>
+                <a href="{{ url_for('login') }}" class="btn btn-light me-2">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-light">Register</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- HERO -->
+    <!-- HERO -->
 <header id="home">
     <div class="container">
-        <h1>Welcome to LYN'S SALON</h1>
-        <p class="lead">Your beauty is our passion. Book your appointment today.</p>
+        <h1 style="text-transform: uppercase;">WELCOME TO LYN'S SALON</h1>
+        <p class="lead" style="color: #fffcee; font-size: 1.5rem; max-width: 700px; margin: 0 auto; line-height: 1.6; text-shadow: 1px 1px 6px rgba(0,0,0,0.7);">
+            Your beauty is our passion. Book your appointment today.
+        </p>
     </div>
 </header>
 
-<!-- ABOUT -->
-<section id="about" class="hero-section">
-    <div class="container">
-        <h2 class="text-center mb-4 text-white">About Us</h2>
-        <p class="text-center text-white">
-           LYN'S SALON has been serving customers with exceptional hair, nail, and skin services since 2010.
-            Our team of professional stylists and beauticians are dedicated to making you look and feel your best.<br><br>
 
-            At LYN’S, we believe that beauty is personal—and so is our service. Whether you're preparing for a big event
-            or simply need a self-care day, we tailor every treatment to your individual style and preferences.<br><br>
-
-            From classic cuts to the latest trends, soothing massages to rejuvenating facials, we use only high-quality
-            products and techniques to ensure satisfaction with every visit.<br><br>
-
-            We pride ourselves on creating a warm, welcoming environment where every client is treated like family.
-            Because at LYN'S SALON, your comfort, confidence, and beauty are always our top priorities.
-        </p>
-    </div>
-</section>
-
-<!-- PROMO -->
-<section id="promo" class="hero-section">
-    <div class="container">
-        <h2 class="text-center mb-4 text-white">Special Promos</h2>
-        <ul class="list-group list-group-flush text-center">
-           <ul class="list-group list-group-flush text-center">
-    <li class="list-group-item">💇‍♀️ Haircut + Blowdry - 30% off every Monday!</li>
-    <li class="list-group-item">💇‍♀️ Student Discount: 20% off Haircuts on Tuesdays!</li>
-    <li class="list-group-item">💅 Free Nail Art on your 3rd visit</li>
-    <li class="list-group-item">💅 Get a complimentary hand massage with every pedicure!</li>
-    <li class="list-group-item">💆‍♀️ Spa & Massage combo - Only ₱999</li>
-    <li class="list-group-item">💆‍♀️ Book a 60-minute massage and get 15 minutes free!</li>
-</ul>
-
-        </ul>
-    </div>
-</section>
-
-<!-- AVAILABLE SERVICES -->
-<section id="services" class="hero-section">
-    <div class="container">
-        <h2 class="text-center mb-5 text-white">Our Available Services</h2>
-        <div class="row g-4">
-
-            <!-- Haircut Service -->
-            <div class="col-md-4">
-                <div class="card h-100 shadow">
-                    <img src="{{ url_for('static', filename='haircut.jpg') }}" class="card-img-top" alt="Haircut">
-                    <img src="{{ url_for('static', filename='haircut1.jpg') }}" class="card-img-top" alt="Haircut">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Haircut & Styling</h5>
-                        <p class="card-text">Get a stylish haircut and professional blow-dry from our expert stylists.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Nail Service -->
-            <div class="col-md-4">
-                <div class="card h-100 shadow">
-                    <img src="{{ url_for('static', filename='nails.jpg') }}" class="card-img-top" alt="Nail Service">
-                    <img src="{{ url_for('static', filename='nails1.jpg') }}" class="card-img-top" alt="Nail Service">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Manicure & Pedicure</h5>
-                        <p class="card-text">Enjoy a relaxing nail care session complete with polish and design options.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Massage Service -->
-            <div class="col-md-4">
-                <div class="card h-100 shadow">
-                    <img src="{{ url_for('static', filename='massage.jpg') }}" class="card-img-top" alt="Massage">
-                          <img src="{{ url_for('static', filename='massage1.jpg') }}" class="card-img-top" alt="Massage">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Spa & Massage</h5>
-                        <p class="card-text">Relax and recharge with our signature massage and spa treatments.</p>
-                    </div>
-                </div>
-            </div>
-
+    <!-- ABOUT -->
+    <section id="about" class="hero-section">
+        <div class="container">
+            <h2 class="text-center mb-4 text-white">About Us</h2>
+            <p class="text-center text-white">
+                LYN'S SALON has been serving customers with exceptional hair, nail, and skin services since 2010.
+                Our team of professional stylists and beauticians are dedicated to making you look and feel your best.<br /><br />
+                At LYN’S, we believe that beauty is personal—and so is our service. Whether you're preparing for a big event
+                or simply need a self-care day, we tailor every treatment to your individual style and preferences.<br /><br />
+                From classic cuts to the latest trends, soothing massages to rejuvenating facials, we use only high-quality
+                products and techniques to ensure satisfaction with every visit.<br /><br />
+                We pride ourselves on creating a warm, welcoming environment where every client is treated like family.
+                Because at LYN'S SALON, your comfort, confidence, and beauty are always our top priorities.
+            </p>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- CONTACT -->
-<section id="contact" class="hero-section">
+    <!-- PROMO -->
+    <section id="promo" class="hero-section">
+        <div class="container">
+            <h2 class="text-center mb-4 text-white">Special Promos</h2>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">💇‍♀️ Haircut + Blowdry - 30% off every Monday!</li>
+                <li class="list-group-item">💇‍♀️ Student Discount: 20% off Haircuts on Tuesdays!</li>
+                <li class="list-group-item">💅 Free Nail Art on your 3rd visit</li>
+                <li class="list-group-item">💅 Get a complimentary hand massage with every pedicure!</li>
+                <li class="list-group-item">💆‍♀️ Spa & Massage combo - Only ₱999</li>
+                <li class="list-group-item">💆‍♀️ Book a 60-minute massage and get 15 minutes free!</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- AVAILABLE SERVICES -->
+    <section id="services" class="hero-section">
+        <div class="container">
+            <h2 class="text-center mb-5 text-white">Our Available Services</h2>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Haircut Service -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card service-card h-100 text-center shadow">
+                        <img src="{{ url_for('static', filename='haircut.jpg') }}" class="card-img-top" alt="Haircut" />
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">Haircut & Styling</h5>
+                            <p class="card-text">Transform your look with precision cuts and professional styling.</p>
+                            <p class="price">₱350 – ₱700</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nail Service -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card service-card h-100 text-center shadow">
+                        <img src="{{ url_for('static', filename='nails.jpg') }}" class="card-img-top" alt="Nails" />
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">Manicure & Pedicure</h5>
+                            <p class="card-text">Pamper your hands and feet with our luxury nail care services.</p>
+                            <p class="price">₱250 – ₱600</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Massage Service -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card service-card h-100 text-center shadow">
+                        <img src="{{ url_for('static', filename='massage.jpg') }}" class="card-img-top" alt="Massage" />
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">Spa & Massage</h5>
+                            <p class="card-text">Relax and recharge with a rejuvenating full-body spa or massage.</p>
+                            <p class="price">₱499 – ₱999</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Facial Service -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card service-card h-100 text-center shadow">
+                        <img src="{{ url_for('static', filename='facial.jpg') }}" class="card-img-top" alt="Facial" />
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">Facial Treatments</h5>
+                            <p class="card-text">Rejuvenate your skin with our soothing and revitalizing facials.</p>
+                            <p class="price">₱400 – ₱850</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hair Color -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card service-card h-100 text-center shadow">
+                        <img src="{{ url_for('static', filename='haircolor.jpg') }}" class="card-img-top" alt="Hair Color" />
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">Hair Coloring</h5>
+                            <p class="card-text">From bold shades to natural tones — refresh your style with color.</p>
+                            <p class="price">₱800 – ₱1,800</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOK APPOINTMENT -->
+<section id="appointment" class="hero-section">
     <div class="container">
-        <h2 class="text-center mb-4 text-white">Contact Us</h2>
-        <p class="text-center text-white mb-4">
-            📞 0912-345-6789 &nbsp; | &nbsp;
-            📍 Brgy. Sibago, Pinamungajan Cebu &nbsp; | &nbsp;
-            📧 lynsalon@email.com
-        </p>
-        <p class="text-center text-white mb-4">
-            🕒 <strong>Operating Hours:</strong><br>
-            Monday – Saturday: 9:00 AM – 7:00 PM<br>
-            Sunday: Closed
-        </p>
-        <p class="text-center text-white mb-4">
-            🌐 <strong>Follow us on Social Media:</strong><br>
-            <a href="https://www.facebook.com" target="_blank" class="text-white text-decoration-underline">Facebook</a> |
-            <a href="https://www.instagram.com" target="_blank" class="text-white text-decoration-underline">Instagram</a> |
-            <a href="https://www.tiktok.com" target="_blank" class="text-white text-decoration-underline">TikTok</a>
-        </p>
-        <p class="text-center text-white">
-            📩 <strong>We'd love to hear from you!</strong><br>
-            Whether you have questions, need help booking, or just want to say hi, don't hesitate to reach out.
-        </p>
+        <h2 class="text-center mb-4 text-white">Book Your Appointment</h2>
+        <form id="appointmentForm" class="text-white" style="max-width: 600px; margin: 0 auto;">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Your full name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="0912-345-6789" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
+                <div class="form-text">Format: 0912-345-6789</div>
+            </div>
+            <div class="mb-3">
+                <label for="service" class="form-label">Select Service</label>
+                <select class="form-select" id="service" name="service" required>
+                    <option value="" disabled selected>Choose a service</option>
+                    <option value="Haircut & Styling">Haircut & Styling</option>
+                    <option value="Manicure & Pedicure">Manicure & Pedicure</option>
+                    <option value="Spa & Massage">Spa & Massage</option>
+                    <option value="Facial Treatments">Facial Treatments</option>
+                    <option value="Hair Coloring">Hair Coloring</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Preferred Date</label>
+                <input type="date" class="form-control" id="date" name="date" required min="<?= date('Y-m-d') ?>">
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Preferred Time</label>
+                <input type="time" class="form-control" id="time" name="time" required>
+            </div>
+            <div class="mb-3">
+                <label for="notes" class="form-label">Additional Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any special requests or information"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-light w-100">Submit Appointment</button>
+        </form>
     </div>
 </section>
 
 
-<!-- FOOTER -->
-<footer>
-    &copy; 2025 LYN'S SALON. All rights reserved.
-</footer>
+    <!-- CONTACT -->
+    <section id="contact" class="hero-section">
+        <div class="container">
+            <h2 class="text-center mb-4 text-white">Contact Us</h2>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <p>
+                📞 0912-345-6789 &nbsp; | &nbsp;
+                📍 Brgy. Sibago, Pinamungajan Cebu &nbsp; | &nbsp;
+                📧 lynsalon@email.com
+            </p>
 
-<script>
-    // Hide all sections except home (header)
-    function showSection(id) {
-        document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
-        document.querySelector('header').style.display = 'none';
+            <p>
+                🕒 <strong>Operating Hours:</strong><br />
+                Monday – Saturday: 9:00 AM – 7:00 PM<br />
+                Sunday: Closed
+            </p>
 
-        if (id === 'home') {
-            document.querySelector('header').style.display = 'flex';
-        } else {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            <p>
+                🌐 <strong>Follow us on Social Media:</strong><br />
+                <a href="https://www.facebook.com" target="_blank">Facebook</a> |
+                <a href="https://www.instagram.com" target="_blank">Instagram</a> |
+                <a href="https://www.tiktok.com" target="_blank">TikTok</a>
+            </p>
+
+            <p>
+                📩 <strong>We'd love to hear from you!</strong><br />
+                Whether you have questions, need help booking, or just want to say hi,
+                don't hesitate to reach out.
+            </p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Hide all sections except home (header)
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(sec => (sec.style.display = 'none'));
+            document.querySelector('header').style.display = 'none';
+
+            if (id === 'home') {
+                document.querySelector('header').style.display = 'flex';
+            } else {
+                document.getElementById(id).style.display = 'block';
+                document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            }
         }
-    }
 
-    // Show only home on load
-    window.onload = () => {
-        showSection('home');
-    };
-</script>
-
+        // Show only home on load
+        window.onload = () => {
+            showSection('home');
+        };
+    </script>
 </body>
 </html>
