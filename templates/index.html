@@ -205,7 +205,7 @@
             <p class="text-center text-white">
                 LYN'S SALON has been serving customers with exceptional hair, nail, and skin services since 2010.
                 Our team of professional stylists and beauticians are dedicated to making you look and feel your best.<br /><br />
-                At LYN’S, we believe that beauty is personal—and so is our service. Whether you're preparing for a big event
+                At LYN’S, we believe that beauty is personal and so is our service. Whether you're preparing for a big event
                 or simply need a self-care day, we tailor every treatment to your individual style and preferences.<br /><br />
                 From classic cuts to the latest trends, soothing massages to rejuvenating facials, we use only high-quality
                 products and techniques to ensure satisfaction with every visit.<br /><br />
@@ -299,50 +299,82 @@
         </div>
     </section>
 
-    <!-- BOOK APPOINTMENT -->
+  <!-- BOOK APPOINTMENT -->
 <section id="appointment" class="hero-section">
-    <div class="container">
-        <h2 class="text-center mb-4 text-white">Book Your Appointment</h2>
-        <form id="appointmentForm" class="text-white" style="max-width: 600px; margin: 0 auto;">
-            <div class="mb-3">
-                <label for="fullName" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Your full name" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="0912-345-6789" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
-                <div class="form-text">Format: 0912-345-6789</div>
-            </div>
-            <div class="mb-3">
-                <label for="service" class="form-label">Select Service</label>
-                <select class="form-select" id="service" name="service" required>
-                    <option value="" disabled selected>Choose a service</option>
-                    <option value="Haircut & Styling">Haircut & Styling</option>
-                    <option value="Manicure & Pedicure">Manicure & Pedicure</option>
-                    <option value="Spa & Massage">Spa & Massage</option>
-                    <option value="Facial Treatments">Facial Treatments</option>
-                    <option value="Hair Coloring">Hair Coloring</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="date" class="form-label">Preferred Date</label>
-                <input type="date" class="form-control" id="date" name="date" required min="<?= date('Y-m-d') ?>">
-            </div>
-            <div class="mb-3">
-                <label for="time" class="form-label">Preferred Time</label>
-                <input type="time" class="form-control" id="time" name="time" required>
-            </div>
-            <div class="mb-3">
-                <label for="notes" class="form-label">Additional Notes</label>
-                <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any special requests or information"></textarea>
-            </div>
-            <button type="submit" class="btn btn-outline-light w-100">Submit Appointment</button>
-        </form>
-    </div>
+  <div class="container">
+    <h2 class="text-center mb-4 text-white">Book Your Appointment</h2>
+
+    <form id="appointmentForm"
+          class="text-white"
+          style="max-width: 600px; margin: 0 auto;"
+          action="{{ url_for('submit_booking') }}"
+          method="POST">
+
+      <!-- Full Name -->
+      <div class="mb-3">
+        <label for="fullName" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Your full name" required>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+
+      <!-- Phone -->
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="tel"
+               class="form-control"
+               id="phone"
+               name="phone"
+               placeholder="0912-345-6789"
+               pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
+               required>
+        <div class="form-text">Format: 0912-345-6789</div>
+      </div>
+
+      <!-- Service -->
+      <div class="mb-3">
+        <label for="service" class="form-label">Select Service</label>
+        <select class="form-select" id="service" name="service" required>
+          <option value="" disabled selected>Choose a service</option>
+          <option value="Haircut & Styling">Haircut & Styling</option>
+          <option value="Manicure & Pedicure">Manicure & Pedicure</option>
+          <option value="Spa & Massage">Spa & Massage</option>
+          <option value="Facial Treatments">Facial Treatments</option>
+          <option value="Hair Coloring">Hair Coloring</option>
+        </select>
+      </div>
+
+      <!-- Date -->
+      <div class="mb-3">
+        <label for="date" class="form-label">Preferred Date</label>
+        <input type="date"
+               class="form-control"
+               id="date"
+               name="date"
+               required
+               min="{{ current_date }}">
+      </div>
+
+      <!-- Time -->
+      <div class="mb-3">
+        <label for="time" class="form-label">Preferred Time</label>
+        <input type="time" class="form-control" id="time" name="time" required>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-3">
+        <label for="notes" class="form-label">Additional Notes</label>
+        <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any special requests or information"></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-outline-light w-100">Proceed to Payment</button>
+    </form>
+  </div>
 </section>
 
 
